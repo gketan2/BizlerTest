@@ -50,7 +50,6 @@ public class VehicleDetailActivity extends AppCompatActivity implements View.OnC
         }else{
             setUpViewMode();
         }
-        subscribeObserver();
     }
 
     private void initViews(){
@@ -84,6 +83,7 @@ public class VehicleDetailActivity extends AppCompatActivity implements View.OnC
             mVehicleDetail = i.getParcelableExtra("vehicledetail");
             imageuri = mVehicleDetail.getVehicle_photo_url();
             mVehicleDetailViewModel.setNewVehicle(false);
+            subscribeObserver(mVehicleDetail.getVehicle_number());
         }else{
             mVehicleDetailViewModel.setNewVehicle(true);
         }
@@ -140,17 +140,13 @@ public class VehicleDetailActivity extends AppCompatActivity implements View.OnC
                 .into(imageView);
     }
 
-    private void subscribeObserver(){
-        if(mVehicleDetail == null)
-            return;
-
-        mVehicleDetailViewModel.getVehicleDetail(mVehicleDetail.getVehicle_number()).observe(this, new Observer<VehicleDetail>() {
+    private void subscribeObserver(String vehicleNumber){
+        mVehicleDetailViewModel.getVehicleDetail(vehicleNumber).observe(this, new Observer<VehicleDetail>() {
             @Override
             public void onChanged(VehicleDetail vehicleDetail) {
                 if(vehicleDetail != null){
                     mVehicleDetail = vehicleDetail;
                     setUpData(vehicleDetail);
-                    System.out.println("called");
                 }
             }
         });
@@ -181,6 +177,7 @@ public class VehicleDetailActivity extends AppCompatActivity implements View.OnC
             * */
             if(mVehicleDetailViewModel.isNewVehicle()){
                 mVehicleDetailViewModel.insertData(data);
+                subscribeObserver(data.getVehicle_number());
             }else{
                 if(!data.getVehicle_number().trim().equals(mVehicleDetail.getVehicle_number())){
                     Toast.makeText(this, "Vehicle Number can not be chnaged", Toast.LENGTH_SHORT).show();

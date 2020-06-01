@@ -15,7 +15,6 @@ public class UpdateAsyncTask extends AsyncTask<VehicleDetail, Void, Void> {
     @Override
     protected Void doInBackground(VehicleDetail... vehicleDetails) {
         dao.update(vehicleDetails[0]);
-        System.out.println("update called");
         return null;
     }
 }

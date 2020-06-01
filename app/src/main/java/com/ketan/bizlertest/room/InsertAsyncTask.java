@@ -3,7 +3,6 @@ package com.ketan.bizlertest.room;
 import android.os.AsyncTask;
 
 import com.ketan.bizlertest.datamodel.VehicleDetail;
-import com.ketan.bizlertest.room.VehicleDetailsDao;
 
 public class InsertAsyncTask extends AsyncTask<VehicleDetail, Void, Void> {
 
@@ -14,8 +13,8 @@ public class InsertAsyncTask extends AsyncTask<VehicleDetail, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(VehicleDetail... notes) {
-        dao.insertNotes(notes);
+    protected Void doInBackground(VehicleDetail... vehicleDetails) {
+        dao.insertNotes(vehicleDetails[0]);
         return null;
     }
 }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ketan.bizlertest.adapter.OnVehicleListClickListener;
@@ -30,6 +31,7 @@ public class VehicleListActivity extends AppCompatActivity implements OnVehicleL
     //Views
     private RecyclerView mRecyclerView;
     private FloatingActionButton mFab;
+    private TextView noVehicle_textview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class VehicleListActivity extends AppCompatActivity implements OnVehicleL
         mRecyclerView = findViewById(R.id.vehiclelistactivity_recyclerview);
         mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(this);
+        noVehicle_textview = findViewById(R.id.novehicle_textview);
 
         mVehicleListViewModel = new ViewModelProvider(this, new ViewModelFactory(getApplicationContext())).get(VehicleListViewModel.class);
 
@@ -60,8 +63,10 @@ public class VehicleListActivity extends AppCompatActivity implements OnVehicleL
             public void onChanged(List<VehicleDetail> vehicleDetails) {
                 if(vehicleDetails == null || vehicleDetails.size() == 0){
                     // todo for empty list
+                    noVehicle_textview.setVisibility(View.VISIBLE);
                 }else{
                     mAdapter.setDataList(vehicleDetails);
+                    noVehicle_textview.setVisibility(View.GONE);
                 }
             }
         });
@@ -76,7 +81,6 @@ public class VehicleListActivity extends AppCompatActivity implements OnVehicleL
 //            fake.add(v);
 //        }
 //        mAdapter.setDataList(fake);
-//        System.out.println("fake");
 //    }
 
     @Override
